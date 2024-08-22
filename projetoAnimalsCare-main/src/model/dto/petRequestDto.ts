@@ -14,7 +14,7 @@ export class PetRequestDto{
         this.raca = raca || '';
         this.genero = genero || '';
         this.idade = idade || 0;
-        this.peso = peso || 0;
+        this.peso = peso || 0 ;
 
         }
 }
