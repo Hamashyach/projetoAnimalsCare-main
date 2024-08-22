@@ -18,74 +18,82 @@ class ResponsavelRepository {
     createTable() {
         return __awaiter(this, void 0, void 0, function* () {
             const query = `
-        CREATE TABLE IF NOT EXISTS DadosResponsavel (
+        CREATE TABLE IF NOT EXISTS animalcare.DadosResponsavel (
             id INT AUTO_INCREMENT PRIMARY KEY,
-            nome VARCHAR(255) NOT NULL,
-            email VARCHAR(255) NOT NULL UNIQUE,
+            name VARCHAR(255) NOT NULL,
+            email VARCHAR(255) NOT NULL,
             senha VARCHAR(255) NOT NULL
-        )`;
+            )`;
             try {
                 const resultado = yield (0, mysql_1.executarComandoSQL)(query, []);
-                console.log('Tabela de responsável criada com sucesso', resultado);
+                console.log('query executada com sucesso', resultado);
             }
             catch (err) {
-                console.error('Erro ao criar tabela de responsável:', err);
+                console.error('error');
             }
         });
     }
     insertUsuario(responsavel) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = "INSERT INTO DadosResponsavel (nome, email, senha) VALUES (?, ?, ?)";
+            const query = "INSERT INTO animalcare.dadosresponsavel (name, email, senha) VALUES (?, ?, ?)";
             try {
-                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [responsavel.nome, responsavel.email, responsavel.senha]);
-                console.log('Responsável inserido com sucesso, ID:', resultado.insertId);
+                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [responsavel.name, responsavel.email, responsavel.senha]);
+                console.log('Usuario inserido com sucesso, ID: ', resultado.isertid);
                 responsavel.id = resultado.insertId;
-                return responsavel;
+                return new Promise((resolve) => {
+                    resolve(responsavel);
+                });
             }
             catch (err) {
-                console.error('Erro ao inserir responsável:', err);
+                console.error('erro ao inserir usuário', err);
                 throw err;
             }
         });
     }
     updateUsuario(responsavel) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = "UPDATE DadosResponsavel SET nome = ?, email = ?, senha = ? WHERE id = ?";
+            const query = 'UPDATE animalcare.DadosResponsavel set name = ?, email = ?, senha = ? where id = ?';
             try {
-                yield (0, mysql_1.executarComandoSQL)(query, [responsavel.nome, responsavel.email, responsavel.senha, responsavel.id]);
-                console.log('Responsável atualizado com sucesso, ID:', responsavel.id);
-                return responsavel;
+                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [responsavel.name, responsavel.email, responsavel.senha, responsavel.id]);
+                console.log('Usuario atualizado com sucesso, ID', resultado);
+                return new Promise((resolve) => {
+                    resolve(responsavel);
+                });
             }
             catch (err) {
-                console.error('Erro ao atualizar responsável:', err);
+                console.error(`Erro ao atualizar usuário de ID ${responsavel.id} gerando o erro: ${err}`);
                 throw err;
             }
         });
     }
     deleteUsuario(responsavel) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = "DELETE FROM DadosResponsavel WHERE id = ?";
+            const query = "DELETE FROM animalcare.DadosReponsavel where id = ?;";
             try {
-                yield (0, mysql_1.executarComandoSQL)(query, [responsavel.id]);
-                console.log('Responsável deletado com sucesso, ID:', responsavel.id);
-                return responsavel;
+                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [responsavel.id]);
+                console.log('Usuário deletado com sucesso: ', resultado);
+                return new Promise((resolve) => {
+                    resolve(responsavel);
+                });
             }
             catch (err) {
-                console.error('Erro ao deletar responsável:', err);
+                console.error(`Falha ao deletar o usuario de ID ${responsavel.id} gerando o erro: ${err}`);
                 throw err;
             }
         });
     }
     filterUsuarioById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = "SELECT * FROM DadosResponsavel WHERE id = ?";
+            const query = "SELECT * FROM animalcare.DadosResponsavel where id = ?";
             try {
                 const resultado = yield (0, mysql_1.executarComandoSQL)(query, [id]);
-                console.log('Responsável localizado com sucesso, ID:', id);
-                return resultado[0];
+                console.log('usuario localizado com sucesso, ID: ', resultado);
+                return new Promise((resolve) => {
+                    resolve(resultado);
+                });
             }
             catch (err) {
-                console.error('Erro ao procurar responsável por ID:', err);
+                console.error(`Falha ao procurar usuarip de ID ${id} gerando o erro: ${err}`);
                 throw err;
             }
         });

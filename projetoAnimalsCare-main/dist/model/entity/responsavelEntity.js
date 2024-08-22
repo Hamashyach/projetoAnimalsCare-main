@@ -2,16 +2,16 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Responsavel = void 0;
 class Responsavel {
-    constructor(id, nome, email, senha) {
-        this.validatesInformation(nome, email, senha);
+    constructor(id, name, email, senha) {
+        this.validatesInformation(name, email, senha);
         this.id = id || 0;
-        this.nome = nome || '';
+        this.name = name || '';
         this.email = email || '';
         this.senha = senha || '';
     }
-    validatesInformation(nome, email, senha) {
+    validatesInformation(name, email, senha) {
         let error = '';
-        if (typeof nome !== 'string' || typeof email !== 'number' || typeof senha !== 'string') {
+        if (typeof name !== 'string' || typeof email !== 'string' || typeof senha !== 'string') {
             error += ("informações incompletas ou incorretas");
         }
         if (error != '') {

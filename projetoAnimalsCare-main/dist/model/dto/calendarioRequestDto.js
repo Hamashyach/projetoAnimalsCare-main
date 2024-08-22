@@ -2,11 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CalendarioRequestDto = void 0;
 class CalendarioRequestDto {
-    constructor(id, dataVacinacao, tipoVacina, hora) {
-        this.id = id || '';
-        this.dataVacinacao = dataVacinacao || '';
-        this.tipoVacina = tipoVacina || '';
-        this.hora = hora || '';
+    constructor(data, tipoCompromisso, hora, observacao) {
+        this.hora = (hora || ' ');
+        this.tipoCompromisso = tipoCompromisso || '';
+        this.data = (data || '');
+        this.observacao = observacao || '';
     }
 }
 exports.CalendarioRequestDto = CalendarioRequestDto;

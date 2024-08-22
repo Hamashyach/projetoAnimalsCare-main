@@ -16,7 +16,7 @@ class PetService {
     constructor() {
         this.petRepository = new petRepository_1.PetRepository();
     }
-    cadastrarPet(petData) {
+    cadastarPet(petData) {
         return __awaiter(this, void 0, void 0, function* () {
             const { nome, especie, raca, genero, idade, peso } = petData;
             const pet = new petEntity_1.Pet(undefined, nome, especie, raca, genero, idade, peso);
@@ -27,8 +27,8 @@ class PetService {
     }
     atualizarPet(petData) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { id, nome, especie, raca, genero, idade, peso } = petData;
-            const pet = new petEntity_1.Pet(id, nome, especie, raca, genero, idade, peso);
+            const { id, idResponsavel, nome, especie, raca, genero, idade, peso } = petData;
+            const pet = new petEntity_1.Pet(id, idResponsavel, nome, especie, raca, genero, idade, peso);
             yield this.petRepository.updatePet(pet);
             console.log("Service - Update", pet);
             return pet;
@@ -36,17 +36,18 @@ class PetService {
     }
     deletarPet(petData) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { id } = petData;
-            const pet = new petEntity_1.Pet(id);
+            const { id, idResponsavel, nome, especie, raca, genero, idade, peso } = petData;
+            const pet = new petEntity_1.Pet(id, idResponsavel, nome, especie, raca, genero, idade, peso);
             yield this.petRepository.deletePet(pet);
             console.log("Service - Delete", pet);
             return pet;
         });
     }
-    filtrarPetById(id) {
+    filtrarPetById(petData) {
         return __awaiter(this, void 0, void 0, function* () {
-            const pet = yield this.petRepository.filterPetById(id);
-            console.log("Service - Filtrar", pet);
+            const idNumber = parseInt(petData, 10);
+            const pet = yield this.petRepository.filterPetById(idNumber);
+            console.log("Service - Filtar", pet);
             return pet;
         });
     }

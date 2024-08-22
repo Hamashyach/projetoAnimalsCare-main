@@ -1,12 +1,10 @@
 export class ResponsavelRequestDto {
-    id: number;
-    nome: string;
+    name: string;
     email: string;
     senha: string;
 
-    constructor(id?: number, nome?: string, email?: string, senha?: string) {
-        this.id = id || 0;
-        this.nome = nome || '';
+    constructor( name?: string, email?: string, senha?: string) {
+        this.name = name || '';
         this.email = email || '';
         this.senha = senha || '';
     }

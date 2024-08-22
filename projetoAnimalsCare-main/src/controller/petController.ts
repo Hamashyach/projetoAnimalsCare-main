@@ -16,7 +16,7 @@ export class PetController extends Controller{
         @Res() sucess: TsoaResponse<201, BasicResponseDto>
     ): Promise<void> {
         try{
-            const pet = await this.petService.cadastrarPet(dto);
+            const pet = await this.petService.cadastarPet(dto);
             return sucess(201, new BasicResponseDto("Pet criado com sucesso!", pet));
 
         } catch (error: any){

@@ -1,78 +1,90 @@
-import { Responsavel } from "../model/entity/responsavelEntity";
 import { executarComandoSQL } from "../database/mysql";
+import { Responsavel} from "../model/entity/responsavelEntity";
 
-export class ResponsavelRepository {
-    constructor() {
+export class ResponsavelRepository{
+    constructor(){
         this.createTable();
     }
 
-    private async createTable() {
+    private async createTable(){
         const query = `
-        CREATE TABLE IF NOT EXISTS DadosResponsavel (
+        CREATE TABLE IF NOT EXISTS animalcare.DadosResponsavel (
             id INT AUTO_INCREMENT PRIMARY KEY,
-            nome VARCHAR(255) NOT NULL,
-            email VARCHAR(255) NOT NULL UNIQUE,
+            name VARCHAR(255) NOT NULL,
+            email VARCHAR(255) NOT NULL,
             senha VARCHAR(255) NOT NULL
-        )`;
+            )`;
 
-        try {
-            const resultado = await executarComandoSQL(query, []);
-            console.log('Tabela de responsável criada com sucesso', resultado);
-        } catch (err) {
-            console.error('Erro ao criar tabela de responsável:', err);
-        }
+            try {
+
+                    const resultado = await executarComandoSQL(query, []);
+                    console.log('query executada com sucesso', resultado);
+
+            }catch (err) {
+                console.error('error');
+            }
     }
 
-    async insertUsuario(responsavel: Responsavel): Promise<Responsavel> {
-        const query = "INSERT INTO DadosResponsavel (nome, email, senha) VALUES (?, ?, ?)";
+    async insertUsuario(responsavel:Responsavel):Promise<Responsavel>{
+        const query = "INSERT INTO animalcare.dadosresponsavel (name, email, senha) VALUES (?, ?, ?)";
 
         try {
-            const resultado = await executarComandoSQL(query, [responsavel.nome, responsavel.email, responsavel.senha]);
-            console.log('Responsável inserido com sucesso, ID:', resultado.insertId);
+            const resultado = await executarComandoSQL(query, [responsavel.name, responsavel.email, responsavel.senha]);
+            console.log('Usuario inserido com sucesso, ID: ', resultado.isertid);
             responsavel.id = resultado.insertId;
-            return responsavel;
+            return new Promise<Responsavel>((resolve)=>{
+                resolve(responsavel);
+            })
         } catch (err) {
-            console.error('Erro ao inserir responsável:', err);
+            console.error('erro ao inserir usuário', err);
             throw err;
+
         }
     }
 
-    async updateUsuario(responsavel: Responsavel): Promise<Responsavel> {
-        const query = "UPDATE DadosResponsavel SET nome = ?, email = ?, senha = ? WHERE id = ?";
+    async updateUsuario(responsavel:Responsavel):Promise<Responsavel>{
+        const query = 'UPDATE animalcare.DadosResponsavel set name = ?, email = ?, senha = ? where id = ?';
+        
+      try {  
+        const resultado = await executarComandoSQL(query, [responsavel.name, responsavel.email, responsavel.senha, responsavel.id]);
+        console.log('Usuario atualizado com sucesso, ID', resultado);
+        return new Promise<Responsavel>((resolve)=>{
+            resolve(responsavel);
+        })
+    } catch (err:any){
+        console.error(`Erro ao atualizar usuário de ID ${responsavel.id} gerando o erro: ${err}`);
+        throw err;
+        }
+    }
+
+    async deleteUsuario(responsavel: Responsavel):Promise<Responsavel>{
+        const query = "DELETE FROM animalcare.DadosReponsavel where id = ?;" ;
 
         try {
-            await executarComandoSQL(query, [responsavel.nome, responsavel.email, responsavel.senha, responsavel.id]);
-            console.log('Responsável atualizado com sucesso, ID:', responsavel.id);
-            return responsavel;
-        } catch (err) {
-            console.error('Erro ao atualizar responsável:', err);
+            const resultado = await executarComandoSQL(query, [responsavel.id]);
+            console.log('Usuário deletado com sucesso: ', resultado);
+            return new Promise<Responsavel>((resolve)=>{
+                resolve(responsavel);
+            })
+        } catch (err:any) {
+            console.error(`Falha ao deletar o usuario de ID ${responsavel.id} gerando o erro: ${err}`);
             throw err;
         }
     }
 
-    async deleteUsuario(responsavel: Responsavel): Promise<Responsavel> {
-        const query = "DELETE FROM DadosResponsavel WHERE id = ?";
-
-        try {
-            await executarComandoSQL(query, [responsavel.id]);
-            console.log('Responsável deletado com sucesso, ID:', responsavel.id);
-            return responsavel;
-        } catch (err) {
-            console.error('Erro ao deletar responsável:', err);
-            throw err;
-        }
-    }
-
-    async filterUsuarioById(id: number): Promise<Responsavel> {
-        const query = "SELECT * FROM DadosResponsavel WHERE id = ?";
+    async filterUsuarioById(id: number): Promise<Responsavel>{
+        const query = "SELECT * FROM animalcare.DadosResponsavel where id = ?";
 
         try {
             const resultado = await executarComandoSQL(query, [id]);
-            console.log('Responsável localizado com sucesso, ID:', id);
-            return resultado[0];
-        } catch (err) {
-            console.error('Erro ao procurar responsável por ID:', err);
+            console.log('usuario localizado com sucesso, ID: ', resultado);
+            return new Promise<Responsavel>((resolve)=>{
+                resolve(resultado);
+            })
+        } catch (err:any){
+            console.error(`Falha ao procurar usuarip de ID ${id} gerando o erro: ${err}`);
             throw err;
         }
     }
+
 }

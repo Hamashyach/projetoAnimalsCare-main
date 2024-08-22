@@ -16,36 +16,37 @@ class ResponsavelService {
     constructor() {
         this.responsavelRepository = new responsavelRepository_1.ResponsavelRepository();
     }
-    cadastrarResponsavel(responsavelData) {
+    cadastarResponsavel(responsavelData) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { nome, email, senha } = responsavelData;
-            const responsavel = new responsavelEntity_1.Responsavel(undefined, nome, email, senha);
-            const novoResponsavel = yield this.responsavelRepository.insertUsuario(responsavel);
+            const { name, email, senha } = responsavelData;
+            const resposavel = new responsavelEntity_1.Responsavel(undefined, name, email, senha);
+            const novoResponsavel = yield this.responsavelRepository.insertUsuario(resposavel);
             console.log("Service - Insert", novoResponsavel);
             return novoResponsavel;
         });
     }
     atualizarResponsavel(responsavelData) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { id, nome, email, senha } = responsavelData;
-            const responsavel = new responsavelEntity_1.Responsavel(id, nome, email, senha);
+            const { id, name, email, senha } = responsavelData;
+            const responsavel = new responsavelEntity_1.Responsavel(id, name, email, senha);
             yield this.responsavelRepository.updateUsuario(responsavel);
             console.log("Service - Update", responsavel);
             return responsavel;
         });
     }
-    deletarResponsavel(responsavelData) {
+    deletarresponsavel(responsavelData) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { id } = responsavelData;
-            const responsavel = new responsavelEntity_1.Responsavel(id);
+            const { id, name, email, senha } = responsavelData;
+            const responsavel = new responsavelEntity_1.Responsavel(id, name, email, senha);
             yield this.responsavelRepository.deleteUsuario(responsavel);
             console.log("Service - Delete", responsavel);
             return responsavel;
         });
     }
-    filtrarResponsavelById(id) {
+    filtrarResponsavelById(responsavelData) {
         return __awaiter(this, void 0, void 0, function* () {
-            const responsavel = yield this.responsavelRepository.filterUsuarioById(id);
+            const idNumber = parseInt(responsavelData, 10);
+            const responsavel = yield this.responsavelRepository.filterUsuarioById(idNumber);
             console.log("Service - Filtrar", responsavel);
             return responsavel;
         });

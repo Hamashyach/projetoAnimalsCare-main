@@ -1,21 +1,20 @@
-
 export class Responsavel{
     id: number;
-    nome: string;
+    name: string;
     email: string;
     senha: string;
     
-    constructor(id?:number, nome?:string, email?:string, senha?:string){
-        this.validatesInformation(nome, email,senha);
+    constructor(id?:number, name?:string, email?:string, senha?:string){
+        this.validatesInformation(name, email,senha);
         this.id = id || 0;
-        this.nome = nome || '';
+        this.name = name || '';
         this.email = email || '';
         this.senha = senha  || '';
     }
 
-    private validatesInformation(nome:any, email:any, senha:any){
+    private validatesInformation(name:any, email:any, senha:any){
         let error = '';
-        if (typeof nome !== 'string' || typeof email !== 'number' || typeof senha !== 'string'){
+        if (typeof name !== 'string' || typeof email !== 'string' || typeof senha !== 'string'){
         error += ("informações incompletas ou incorretas");
         }
         if(error !=''){

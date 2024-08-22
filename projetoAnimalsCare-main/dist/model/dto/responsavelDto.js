@@ -2,9 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ResponsavelDto = void 0;
 class ResponsavelDto {
-    constructor(id, nome, email, senha) {
+    constructor(id, name, email, senha) {
         this.id = id;
-        this.nome = nome;
+        this.name = name;
         this.email = email;
         this.senha = senha;
     }

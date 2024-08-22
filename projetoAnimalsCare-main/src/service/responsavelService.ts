@@ -1,39 +1,47 @@
 import { Responsavel } from "../model/entity/responsavelEntity";
 import { ResponsavelRepository } from "../repository/responsavelRepository";
 
-export class ResponsavelService {
-    private responsavelRepository: ResponsavelRepository = new ResponsavelRepository();
+export class ResponsavelService{
 
-    async cadastrarResponsavel(responsavelData: any): Promise<Responsavel> {
-        const { nome, email, senha } = responsavelData;
+    responsavelRepository: ResponsavelRepository = new ResponsavelRepository();
 
-        const responsavel = new Responsavel(undefined, nome, email, senha);
-        const novoResponsavel = await this.responsavelRepository.insertUsuario(responsavel);
+    async cadastarResponsavel(responsavelData: any):Promise<Responsavel> {
+        const {name, email, senha} = responsavelData;
+
+        const resposavel = new Responsavel(undefined, name, email, senha)
+
+        const novoResponsavel = await this.responsavelRepository.insertUsuario(resposavel);
         console.log("Service - Insert", novoResponsavel);
         return novoResponsavel;
     }
 
-    async atualizarResponsavel(responsavelData: any): Promise<Responsavel> {
-        const { id, nome, email, senha } = responsavelData;
+    async atualizarResponsavel(responsavelData: any): Promise<Responsavel>{
+        const { id, name, email, senha} = responsavelData;
 
-        const responsavel = new Responsavel(id, nome, email, senha);
+        const responsavel = new Responsavel(id, name, email, senha)
+
         await this.responsavelRepository.updateUsuario(responsavel);
         console.log("Service - Update", responsavel);
         return responsavel;
     }
 
-    async deletarResponsavel(responsavelData: any): Promise<Responsavel> {
-        const { id } = responsavelData;
+    async deletarresponsavel(responsavelData: any): Promise<Responsavel>{
+        const {id, name, email, senha} = responsavelData;
 
-        const responsavel = new Responsavel(id);
+        const responsavel = new Responsavel(id, name, email, senha)
+
         await this.responsavelRepository.deleteUsuario(responsavel);
         console.log("Service - Delete", responsavel);
         return responsavel;
     }
 
-    async filtrarResponsavelById(id: number): Promise<Responsavel> {
-        const responsavel = await this.responsavelRepository.filterUsuarioById(id);
+    async filtrarResponsavelById(responsavelData: any): Promise<Responsavel>{
+        const idNumber = parseInt(responsavelData, 10);
+
+        const responsavel = await this.responsavelRepository.filterUsuarioById(idNumber);
         console.log("Service - Filtrar", responsavel);
         return responsavel;
     }
+
+
 }

@@ -1,34 +1,35 @@
-import { stringParaData, verificaFormatoData } from "../../util/DataUtil";
+import { stringParaData, verificaFormatoData, verificaFormatoHora } from "../../util/DataUtil";
 
 export class Calendario {
     id: number;
-    dataVacinacao: Date;
-    tipoVacina: string;
+    data: Date;
+    tipoCompromisso: string;
     hora: Date;
+    observacao: string;
 
-    constructor(id?: number, dataVacinacao?: Date, tipoVacina?: string, hora?: Date) {
+    constructor(id?: number, data?: Date | string, tipoCompromisso?: string, hora?: Date | string, observacao?: string) {
+        const dataStr = typeof data === 'string' ? data : data instanceof Date ? data.toISOString().split('T')[0] : '';
+        const horaStr = typeof hora === 'string' ? hora : hora instanceof Date ? hora.toTimeString().split(' ')[0].substring(0, 5) : '';
 
-        const dataVacinacaoStr = dataVacinacao ? dataVacinacao.toISOString().split('T')[0] : '';
-        const horaStr = hora ? hora.toTimeString().split(' ')[0].substring(0, 5) : '';
-
-        this.validatesInformation(dataVacinacaoStr, tipoVacina || '', horaStr);
+        this.validatesInformation(dataStr, tipoCompromisso || '', horaStr, observacao || '');
         this.id = id || 0;
         this.hora = stringParaData(horaStr);
-        this.tipoVacina = tipoVacina || '';
-        this.dataVacinacao = stringParaData(dataVacinacaoStr);
+        this.tipoCompromisso = tipoCompromisso || '';
+        this.data = stringParaData(dataStr);
+        this.observacao = observacao || '';
     }
 
-    private validatesInformation(dataVacinacao: string, tipoVacina: string, hora: string) {
+    private validatesInformation(data: string, tipoCompromisso: string, hora: string, observacao: string) {
         let error = '';
-        if (typeof dataVacinacao !== 'string' || typeof tipoVacina !== 'string' || typeof hora !== 'string') {
+        if (typeof data !== 'string' || typeof tipoCompromisso !== 'string' || typeof hora !== 'string' || typeof observacao !== 'string') {
             error += "Informações incompletas ou incorretas. ";
         }
 
-        if (!verificaFormatoData(dataVacinacao)) {
+        if (!verificaFormatoData(data)) {
             error += "A data deve possuir o formato: dd/MM/yyyy. ";
         }
 
-        if (!verificaFormatoData(hora)) {
+        if (!verificaFormatoHora(hora)) {
             error += "A hora deve possuir o formato: hh:mm. ";
         }
 
@@ -37,7 +38,3 @@ export class Calendario {
         }
     }
 }
-
-
-
-

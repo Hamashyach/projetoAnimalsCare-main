@@ -9,11 +9,7 @@
 		"schemas": {
 			"ResponsavelRequestDto": {
 				"properties": {
-					"id": {
-						"type": "number",
-						"format": "double"
-					},
-					"nome": {
+					"name": {
 						"type": "string"
 					},
 					"email": {
@@ -24,8 +20,7 @@
 					}
 				},
 				"required": [
-					"id",
-					"nome",
+					"name",
 					"email",
 					"senha"
 				],
@@ -51,7 +46,7 @@
 						"type": "number",
 						"format": "double"
 					},
-					"nome": {
+					"name": {
 						"type": "string"
 					},
 					"email": {
@@ -63,7 +58,7 @@
 				},
 				"required": [
 					"id",
-					"nome",
+					"name",
 					"email",
 					"senha"
 				],
@@ -72,7 +67,7 @@
 			},
 			"PetRequestDto": {
 				"properties": {
-					"id": {
+					"idResponsavel": {
 						"type": "number",
 						"format": "double"
 					},
@@ -98,7 +93,7 @@
 					}
 				},
 				"required": [
-					"id",
+					"idResponsavel",
 					"nome",
 					"especie",
 					"raca",
@@ -115,6 +110,10 @@
 						"type": "number",
 						"format": "double"
 					},
+					"idResponsavel": {
+						"type": "number",
+						"format": "double"
+					},
 					"nome": {
 						"type": "string"
 					},
@@ -138,6 +137,7 @@
 				},
 				"required": [
 					"id",
+					"idResponsavel",
 					"nome",
 					"especie",
 					"raca",
@@ -150,43 +150,48 @@
 			},
 			"CalendarioRequestDto": {
 				"properties": {
-					"id": {
+					"data": {
 						"type": "string"
 					},
-					"dataVacinacao": {
-						"type": "string"
-					},
-					"tipoVacina": {
+					"tipoCompromisso": {
 						"type": "string"
 					},
 					"hora": {
 						"type": "string"
+					},
+					"observacao": {
+						"type": "string"
 					}
 				},
 				"required": [
-					"dataVacinacao",
-					"tipoVacina",
-					"hora"
+					"data",
+					"tipoCompromisso",
+					"hora",
+					"observacao"
 				],
 				"type": "object",
 				"additionalProperties": false
 			},
 			"CalendarioDto": {
 				"properties": {
-					"dataVacinacao": {
+					"data": {
 						"type": "string"
 					},
-					"tipoVacina": {
+					"tipoCompromisso": {
 						"type": "string"
 					},
 					"hora": {
 						"type": "string"
+					},
+					"observacao": {
+						"type": "string"
 					}
 				},
 				"required": [
-					"dataVacinacao",
-					"tipoVacina",
-					"hora"
+					"data",
+					"tipoCompromisso",
+					"hora",
+					"observacao"
 				],
 				"type": "object",
 				"additionalProperties": false

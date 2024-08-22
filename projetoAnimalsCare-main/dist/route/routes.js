@@ -25,8 +25,7 @@ const models = {
     "ResponsavelRequestDto": {
         "dataType": "refObject",
         "properties": {
-            "id": { "dataType": "double", "required": true },
-            "nome": { "dataType": "string", "required": true },
+            "name": { "dataType": "string", "required": true },
             "email": { "dataType": "string", "required": true },
             "senha": { "dataType": "string", "required": true },
         },
@@ -46,7 +45,7 @@ const models = {
         "dataType": "refObject",
         "properties": {
             "id": { "dataType": "double", "required": true },
-            "nome": { "dataType": "string", "required": true },
+            "name": { "dataType": "string", "required": true },
             "email": { "dataType": "string", "required": true },
             "senha": { "dataType": "string", "required": true },
         },
@@ -56,7 +55,7 @@ const models = {
     "PetRequestDto": {
         "dataType": "refObject",
         "properties": {
-            "id": { "dataType": "double", "required": true },
+            "idResponsavel": { "dataType": "double", "required": true },
             "nome": { "dataType": "string", "required": true },
             "especie": { "dataType": "string", "required": true },
             "raca": { "dataType": "string", "required": true },
@@ -71,6 +70,7 @@ const models = {
         "dataType": "refObject",
         "properties": {
             "id": { "dataType": "double", "required": true },
+            "idResponsavel": { "dataType": "double", "required": true },
             "nome": { "dataType": "string", "required": true },
             "especie": { "dataType": "string", "required": true },
             "raca": { "dataType": "string", "required": true },
@@ -84,10 +84,10 @@ const models = {
     "CalendarioRequestDto": {
         "dataType": "refObject",
         "properties": {
-            "id": { "dataType": "string" },
-            "dataVacinacao": { "dataType": "string", "required": true },
-            "tipoVacina": { "dataType": "string", "required": true },
+            "data": { "dataType": "string", "required": true },
+            "tipoCompromisso": { "dataType": "string", "required": true },
             "hora": { "dataType": "string", "required": true },
+            "observacao": { "dataType": "string", "required": true },
         },
         "additionalProperties": false,
     },
@@ -95,9 +95,10 @@ const models = {
     "CalendarioDto": {
         "dataType": "refObject",
         "properties": {
-            "dataVacinacao": { "dataType": "string", "required": true },
-            "tipoVacina": { "dataType": "string", "required": true },
+            "data": { "dataType": "string", "required": true },
+            "tipoCompromisso": { "dataType": "string", "required": true },
             "hora": { "dataType": "string", "required": true },
+            "observacao": { "dataType": "string", "required": true },
         },
         "additionalProperties": false,
     },

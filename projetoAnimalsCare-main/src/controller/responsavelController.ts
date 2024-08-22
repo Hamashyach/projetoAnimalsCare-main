@@ -16,7 +16,7 @@ export class ResponsavelController extends Controller{
         @Res() sucess: TsoaResponse<201, BasicResponseDto>
     ): Promise<void> {
         try{
-            const responsavel = await this.responsavelService.cadastrarResponsavel(dto);
+            const responsavel = await this.responsavelService.cadastarResponsavel(dto);
             return sucess(201, new BasicResponseDto("Usuario criado com sucesso!", responsavel));
 
         } catch (error: any){
@@ -45,7 +45,7 @@ export class ResponsavelController extends Controller{
         @Res() success: TsoaResponse<200, BasicResponseDto>
     ): Promise<void> {
         try {
-            await this.responsavelService.deletarResponsavel(dto);
+            await this.responsavelService.deletarresponsavel(dto);
             return success(200, new BasicResponseDto("Usuário deletado com sucesso!", undefined));
         } catch (error: any) {
             return notFound(400, new BasicResponseDto(error.message, undefined));
@@ -70,5 +70,6 @@ export class ResponsavelController extends Controller{
 
 
 
+        
         
 }

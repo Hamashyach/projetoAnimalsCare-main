@@ -18,8 +18,9 @@ class PetRepository {
     createTable() {
         return __awaiter(this, void 0, void 0, function* () {
             const query = `
-        CREATE TABLE IF NOT EXISTS DadosPet (
+        CREATE TABLE IF NOT EXISTS animalcare.DadosPet (
             id INT AUTO_INCREMENT PRIMARY KEY,
+            idResponsavel INT NOT NULL,
             nome VARCHAR(255) NOT NULL,
             especie VARCHAR(255) NOT NULL,
             raca VARCHAR(255) NOT NULL,
@@ -29,66 +30,74 @@ class PetRepository {
         )`;
             try {
                 const resultado = yield (0, mysql_1.executarComandoSQL)(query, []);
-                console.log('Tabela de pet criada com sucesso', resultado);
+                console.log('Query executada com sucesso', resultado);
             }
             catch (err) {
-                console.error('Erro ao criar tabela de pet:', err);
+                console.error('Error');
             }
         });
     }
     insertPet(pet) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = "INSERT INTO DadosPet (nome, especie, raca, genero, idade, peso) VALUES (?, ?, ?, ?, ?, ?)";
+            const query = "INSERT INTO animalcare.DadosPet (idResponsavel, nome, especie, raca, genero, idade, peso) VALUES (?, ? ,?, ?, ?, ?)";
             try {
-                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [pet.nome, pet.especie, pet.raca, pet.genero, pet.idade, pet.peso]);
-                console.log('Pet inserido com sucesso, ID:', resultado.insertId);
+                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [pet.idResponsavel, pet.nome, pet.especie, pet.raca, pet.genero, pet.idade, pet.peso]);
+                console.log('Pet inserido com sucesso, ID: ', resultado.insertId);
                 pet.id = resultado.insertId;
-                return pet;
+                return new Promise((resolve) => {
+                    resolve(pet);
+                });
             }
             catch (err) {
-                console.error('Erro ao inserir pet:', err);
+                console.error('Erro ao inserir o pet', err);
                 throw err;
             }
         });
     }
     updatePet(pet) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = "UPDATE DadosPet SET nome = ?, especie = ?, raca = ?, genero = ?, idade = ?, peso = ? WHERE id = ?";
+            const query = "UPDATE animalcare.DadosPet set isResponsavel = ?, nome = ?, especie = ?, raca = ?, genero = ?, idade = ?, peso= ? where id = ?";
             try {
-                yield (0, mysql_1.executarComandoSQL)(query, [pet.nome, pet.especie, pet.raca, pet.genero, pet.idade, pet.peso, pet.id]);
-                console.log('Pet atualizado com sucesso, ID:', pet.id);
-                return pet;
+                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [pet.nome, pet.especie, pet.raca, pet.genero, pet.idade, pet.peso, pet.id]);
+                console.log('Pet atualizado com sucesso, ID ', resultado);
+                return new Promise((resolve) => {
+                    resolve(pet);
+                });
             }
             catch (err) {
-                console.error('Erro ao atualizar pet:', err);
+                console.error(`Erro ao atualizar pet de ID ${pet.id} gerando o erro: ${err}`);
                 throw err;
             }
         });
     }
     deletePet(pet) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = "DELETE FROM DadosPet WHERE id = ?";
+            const query = "DELETE FROM animalcare.DadosPet where id = ?;";
             try {
-                yield (0, mysql_1.executarComandoSQL)(query, [pet.id]);
-                console.log('Pet deletado com sucesso, ID:', pet.id);
-                return pet;
+                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [pet.id]);
+                console.log('Pet deletado com sucesso: ', pet);
+                return new Promise((resolve) => {
+                    resolve(pet);
+                });
             }
             catch (err) {
-                console.error('Erro ao deletar pet:', err);
+                console.error(`Falha ao deletar o pet de ID ${pet.id} gerando o erro: ${err}`);
                 throw err;
             }
         });
     }
     filterPetById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = "SELECT * FROM DadosPet WHERE id = ?";
+            const query = 'Select * From animalcare.DadosPet where id = ?';
             try {
                 const resultado = yield (0, mysql_1.executarComandoSQL)(query, [id]);
-                console.log('Pet localizado com sucesso, ID:', id);
-                return resultado[0];
+                console.log('Pet localizado com sucesso, ID: ', resultado);
+                return new Promise((resolve) => {
+                    resolve(resultado);
+                });
             }
             catch (err) {
-                console.error('Erro ao procurar pet por ID:', err);
+                console.error(`Falha ao procurar o Pet de ID ${id} gerando o erro: ${err}`);
                 throw err;
             }
         });

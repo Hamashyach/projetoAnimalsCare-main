@@ -18,74 +18,83 @@ class CalendarioRepository {
     createTable() {
         return __awaiter(this, void 0, void 0, function* () {
             const query = `
-        CREATE TABLE IF NOT EXISTS DadosCalendario (
+        CREATE TABLE IF NOT EXISTS animalcare.DadosCalendario (
             id INT AUTO_INCREMENT PRIMARY KEY,
-            dataVacinacao DATE NOT NULL,
-            tipoVacina VARCHAR(255) NOT NULL,
-            hora TIME NOT NULL
-        )`;
+            data DATE NOT NULL,
+            tipoCompromisso VARCHAR(255) NOT NULL,
+            hora DATE NOT NULL ,
+            observacao VARCHAR(255) 
+            )`;
             try {
                 const resultado = yield (0, mysql_1.executarComandoSQL)(query, []);
-                console.log('Tabela de calendário criada com sucesso', resultado);
+                console.log('Query executada com sucesso', resultado);
             }
             catch (err) {
-                console.error('Erro ao criar tabela de calendário:', err);
+                console.error('Error');
             }
         });
     }
     insertData(calendario) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = "INSERT INTO DadosCalendario (dataVacinacao, tipoVacina, hora) VALUES (?, ?, ?)";
+            const query = "INSERT INTO animalcare.DadosCalendario (data, tipoCompromisso, hora, observacao) VALUES (?, ?, ?, ?)";
             try {
-                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [calendario.dataVacinacao, calendario.tipoVacina, calendario.hora]);
-                console.log('Vacinação inserida com sucesso, ID:', resultado.insertId);
+                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [calendario.data, calendario.tipoCompromisso, calendario.hora, calendario.observacao]);
+                console.log('Compromisso inserido com sucesso, ID ', resultado.insertId);
                 calendario.id = resultado.insertId;
-                return calendario;
+                return new Promise((resolve) => {
+                    resolve(calendario);
+                });
             }
             catch (err) {
-                console.error('Erro ao inserir vacinação:', err);
+                console.log('Erro ao inserir compromisso', err);
                 throw err;
             }
         });
     }
     updateData(calendario) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = "UPDATE DadosCalendario SET dataVacinacao = ?, tipoVacina = ?, hora = ? WHERE id = ?";
+            const query = "UPDATE animalcare.DadosCalendario set data = ?, tipoCompromisso = ?, hora = ?, observacao = ? where id = ? ";
             try {
-                yield (0, mysql_1.executarComandoSQL)(query, [calendario.dataVacinacao, calendario.tipoVacina, calendario.hora, calendario.id]);
-                console.log('Vacinação atualizada com sucesso, ID:', calendario.id);
-                return calendario;
+                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [calendario.data, calendario.tipoCompromisso, calendario.hora, calendario.observacao, calendario.id]);
+                console.log('Data atualizada com sucesso, ID ', resultado);
+                return new Promise((resolve) => {
+                    resolve(calendario);
+                });
             }
             catch (err) {
-                console.error('Erro ao atualizar vacinação:', err);
+                console.error(`Erro ao atualizar data de ID ${calendario.id} gerando o erro: ${err}`);
                 throw err;
             }
         });
     }
     deleteData(calendario) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = "DELETE FROM DadosCalendario WHERE id = ?";
+            const query = "DELETE FROM animalcare.DadodCalendario where id = ?";
             try {
-                yield (0, mysql_1.executarComandoSQL)(query, [calendario.id]);
-                console.log('Vacinação deletada com sucesso, ID:', calendario.id);
-                return calendario;
+                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [calendario.id]);
+                console.log('Data deletada com sucesso: ', calendario);
+                return new Promise((resolve) => {
+                    resolve(calendario);
+                });
             }
             catch (err) {
-                console.error('Erro ao deletar vacinação:', err);
+                console.error(`Falha ao deletar data de id ${calendario.id} gerando o erro: ${err}`);
                 throw err;
             }
         });
     }
     filterDataById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = "SELECT * FROM DadosCalendario WHERE id = ?";
+            const query = "SELECT * FROM animalcare.DadosCalendario where id = ?";
             try {
                 const resultado = yield (0, mysql_1.executarComandoSQL)(query, [id]);
-                console.log('Vacinação localizada com sucesso, ID:', id);
-                return resultado[0];
+                console.log('Data localizada com sucesso, ID: ', resultado);
+                return new Promise((resolve) => {
+                    resolve(resultado);
+                });
             }
             catch (err) {
-                console.error('Erro ao procurar vacinação por ID:', err);
+                console.error(`Erro ao procurar data de ID ${id} gerando o erro: ${err}`);
                 throw err;
             }
         });

@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.verificaFormatoData = verificaFormatoData;
 exports.stringParaData = stringParaData;
 exports.calculaDiferencaDiasEntreDatas = calculaDiferencaDiasEntreDatas;
+exports.verificaFormatoHora = verificaFormatoHora;
 function verificaFormatoData(dataString) {
     const regex = /^\d{2}\/\d{2}\/\d{4}$/;
     return regex.test(dataString);
@@ -22,4 +23,8 @@ function calculaDiferencaDiasEntreDatas(menorData, maiorData) {
     const umDia = 1000 * 60 * 60 * 24;
     const diferencaMillis = maiorData.getTime() - menorData.getTime();
     return Math.floor(diferencaMillis / umDia);
+}
+function verificaFormatoHora(horaString) {
+    const regex = /^\d{2}:\d{2}$/;
+    return regex.test(horaString);
 }

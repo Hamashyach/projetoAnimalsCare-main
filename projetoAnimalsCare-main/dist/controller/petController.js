@@ -35,7 +35,7 @@ let PetController = class PetController extends tsoa_1.Controller {
     cadastrarPet(dto, fail, sucess) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const pet = yield this.petService.cadastrarPet(dto);
+                const pet = yield this.petService.cadastarPet(dto);
                 return sucess(201, new BasicResponseDto_1.BasicResponseDto("Pet criado com sucesso!", pet));
             }
             catch (error) {

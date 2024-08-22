@@ -2,9 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ResponsavelRequestDto = void 0;
 class ResponsavelRequestDto {
-    constructor(id, nome, email, senha) {
-        this.id = id || 0;
-        this.nome = nome || '';
+    constructor(name, email, senha) {
+        this.name = name || '';
         this.email = email || '';
         this.senha = senha || '';
     }

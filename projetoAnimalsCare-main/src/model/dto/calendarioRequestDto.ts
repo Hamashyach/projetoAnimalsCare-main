@@ -1,13 +1,14 @@
-export class CalendarioRequestDto {
-    id?: string;
-    dataVacinacao: string;
-    tipoVacina: string;
+export class CalendarioRequestDto{
+    data: string;
+    tipoCompromisso: string;
     hora: string;
+    observacao: string;
 
-    constructor(id?: string, dataVacinacao?: string, tipoVacina?: string, hora?: string) {
-        this.id = id || '';
-        this.dataVacinacao = dataVacinacao || '';
-        this.tipoVacina = tipoVacina || '';
-        this.hora = hora || '';
+    constructor(data?:string, tipoCompromisso?:string, hora?:string, observacao?: string){
+        this.hora = (hora || ' ');
+        this.tipoCompromisso = tipoCompromisso || '';
+        this.data = (data || '');
+        this.observacao = observacao || '';
+
     }
 }

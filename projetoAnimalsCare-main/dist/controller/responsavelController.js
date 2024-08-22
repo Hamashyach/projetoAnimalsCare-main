@@ -35,7 +35,7 @@ let ResponsavelController = class ResponsavelController extends tsoa_1.Controlle
     cadastrarUsuario(dto, fail, sucess) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const responsavel = yield this.responsavelService.cadastrarResponsavel(dto);
+                const responsavel = yield this.responsavelService.cadastarResponsavel(dto);
                 return sucess(201, new BasicResponseDto_1.BasicResponseDto("Usuario criado com sucesso!", responsavel));
             }
             catch (error) {
@@ -57,7 +57,7 @@ let ResponsavelController = class ResponsavelController extends tsoa_1.Controlle
     deletarUsuario(dto, notFound, success) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                yield this.responsavelService.deletarResponsavel(dto);
+                yield this.responsavelService.deletarresponsavel(dto);
                 return success(200, new BasicResponseDto_1.BasicResponseDto("Usuário deletado com sucesso!", undefined));
             }
             catch (error) {

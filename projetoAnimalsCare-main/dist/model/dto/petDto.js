@@ -2,8 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PetDto = void 0;
 class PetDto {
-    constructor(id, nome, especie, raca, genero, idade, peso) {
+    constructor(id, idResponsavel, nome, especie, raca, genero, idade, peso) {
         this.id = id;
+        this.idResponsavel = idResponsavel;
         this.nome = nome;
         this.especie = especie;
         this.raca = raca;

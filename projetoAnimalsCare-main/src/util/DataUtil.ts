@@ -21,4 +21,11 @@ export function calculaDiferencaDiasEntreDatas(menorData: Date, maiorData: Date)
     const umDia = 1000 * 60 * 60 * 24;
     const diferencaMillis = maiorData.getTime() - menorData.getTime();
     return Math.floor(diferencaMillis / umDia);
+    }
+    
+    export function verificaFormatoHora(horaString: string): boolean {
+        const regex = /^\d{2}:\d{2}$/;
+        return regex.test(horaString);
 }
+    
+

@@ -18,8 +18,7 @@ const models: TsoaRoute.Models = {
     "ResponsavelRequestDto": {
         "dataType": "refObject",
         "properties": {
-            "id": {"dataType":"double","required":true},
-            "nome": {"dataType":"string","required":true},
+            "name": {"dataType":"string","required":true},
             "email": {"dataType":"string","required":true},
             "senha": {"dataType":"string","required":true},
         },
@@ -39,7 +38,7 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "id": {"dataType":"double","required":true},
-            "nome": {"dataType":"string","required":true},
+            "name": {"dataType":"string","required":true},
             "email": {"dataType":"string","required":true},
             "senha": {"dataType":"string","required":true},
         },
@@ -49,7 +48,7 @@ const models: TsoaRoute.Models = {
     "PetRequestDto": {
         "dataType": "refObject",
         "properties": {
-            "id": {"dataType":"double","required":true},
+            "idResponsavel": {"dataType":"double","required":true},
             "nome": {"dataType":"string","required":true},
             "especie": {"dataType":"string","required":true},
             "raca": {"dataType":"string","required":true},
@@ -64,6 +63,7 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "id": {"dataType":"double","required":true},
+            "idResponsavel": {"dataType":"double","required":true},
             "nome": {"dataType":"string","required":true},
             "especie": {"dataType":"string","required":true},
             "raca": {"dataType":"string","required":true},
@@ -77,10 +77,10 @@ const models: TsoaRoute.Models = {
     "CalendarioRequestDto": {
         "dataType": "refObject",
         "properties": {
-            "id": {"dataType":"string"},
-            "dataVacinacao": {"dataType":"string","required":true},
-            "tipoVacina": {"dataType":"string","required":true},
+            "data": {"dataType":"string","required":true},
+            "tipoCompromisso": {"dataType":"string","required":true},
             "hora": {"dataType":"string","required":true},
+            "observacao": {"dataType":"string","required":true},
         },
         "additionalProperties": false,
     },
@@ -88,9 +88,10 @@ const models: TsoaRoute.Models = {
     "CalendarioDto": {
         "dataType": "refObject",
         "properties": {
-            "dataVacinacao": {"dataType":"string","required":true},
-            "tipoVacina": {"dataType":"string","required":true},
+            "data": {"dataType":"string","required":true},
+            "tipoCompromisso": {"dataType":"string","required":true},
             "hora": {"dataType":"string","required":true},
+            "observacao": {"dataType":"string","required":true},
         },
         "additionalProperties": false,
     },

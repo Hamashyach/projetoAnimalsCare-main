@@ -18,8 +18,8 @@ class CalendarioService {
     }
     cadastrarData(calendarioData) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { dataVacinacao, tipoVacina, hora } = calendarioData;
-            const calendario = new calendarioEntity_1.Calendario(undefined, dataVacinacao, tipoVacina, hora);
+            const { data, tipoCompromisso, hora, observacao } = calendarioData;
+            const calendario = new calendarioEntity_1.Calendario(undefined, data, tipoCompromisso, hora, observacao);
             const novaData = yield this.calendarioRepository.insertData(calendario);
             console.log("Service - Insert", novaData);
             return novaData;
@@ -27,8 +27,8 @@ class CalendarioService {
     }
     atualizarData(calendarioData) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { id, dataVacinacao, tipoVacina, hora } = calendarioData;
-            const calendario = new calendarioEntity_1.Calendario(id, dataVacinacao, tipoVacina, hora);
+            const { id, data, tipoCompromisso, hora, observacao } = calendarioData;
+            const calendario = new calendarioEntity_1.Calendario(id, data, tipoCompromisso, hora, observacao);
             yield this.calendarioRepository.updateData(calendario);
             console.log("Service - Update", calendario);
             return calendario;
@@ -36,17 +36,18 @@ class CalendarioService {
     }
     deletarData(calendarioData) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { id } = calendarioData;
-            const calendario = new calendarioEntity_1.Calendario(id);
+            const { id, data, tipoCompromisso, hora, observacao } = calendarioData;
+            const calendario = new calendarioEntity_1.Calendario(id, data, tipoCompromisso, hora, observacao);
             yield this.calendarioRepository.deleteData(calendario);
             console.log("Service - Delete", calendario);
             return calendario;
         });
     }
-    filtrarDataById(id) {
+    filtrarDataById(calendarioData) {
         return __awaiter(this, void 0, void 0, function* () {
-            const calendario = yield this.calendarioRepository.filterDataById(id);
-            console.log("Service - Filtrar", calendario);
+            const idNumber = parseInt(calendarioData, 10);
+            const calendario = yield this.calendarioRepository.filterDataById(idNumber);
+            console.log("Service - Filtar", calendario);
             return calendario;
         });
     }
