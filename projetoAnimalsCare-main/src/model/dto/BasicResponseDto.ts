@@ -1,6 +1,6 @@
 export class BasicResponseDto {
     message: string;
-    object?: any;
+    object: any;
 
     constructor(message: string, object: any) {
         this.message = message;

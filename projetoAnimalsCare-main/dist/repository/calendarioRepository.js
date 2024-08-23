@@ -18,7 +18,7 @@ class CalendarioRepository {
     createTable() {
         return __awaiter(this, void 0, void 0, function* () {
             const query = `
-        CREATE TABLE IF NOT EXISTS animalcare.DadosCalendario (
+        CREATE TABLE IF NOT EXISTS DadosCalendario (
             id INT AUTO_INCREMENT PRIMARY KEY,
             data DATE NOT NULL,
             tipoCompromisso VARCHAR(255) NOT NULL,
@@ -36,7 +36,7 @@ class CalendarioRepository {
     }
     insertData(calendario) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = "INSERT INTO animalcare.DadosCalendario (data, tipoCompromisso, hora, observacao) VALUES (?, ?, ?, ?)";
+            const query = "INSERT INTO DadosCalendario (data, tipoCompromisso, hora, observacao) VALUES (?, ?, ?, ?)";
             try {
                 const resultado = yield (0, mysql_1.executarComandoSQL)(query, [calendario.data, calendario.tipoCompromisso, calendario.hora, calendario.observacao]);
                 console.log('Compromisso inserido com sucesso, ID ', resultado.insertId);
@@ -46,20 +46,18 @@ class CalendarioRepository {
                 });
             }
             catch (err) {
-                console.log('Erro ao inserir compromisso', err);
+                console.log('Erro ao inserir compromisso');
                 throw err;
             }
         });
     }
     updateData(calendario) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = "UPDATE animalcare.DadosCalendario set data = ?, tipoCompromisso = ?, hora = ?, observacao = ? where id = ? ";
+            const query = "UPDATE DadosCalendario SET data = ?, tipoCompromisso = ?, hora = ?, observacao = ? where id = ? ";
             try {
                 const resultado = yield (0, mysql_1.executarComandoSQL)(query, [calendario.data, calendario.tipoCompromisso, calendario.hora, calendario.observacao, calendario.id]);
                 console.log('Data atualizada com sucesso, ID ', resultado);
-                return new Promise((resolve) => {
-                    resolve(calendario);
-                });
+                return calendario;
             }
             catch (err) {
                 console.error(`Erro ao atualizar data de ID ${calendario.id} gerando o erro: ${err}`);
@@ -69,13 +67,11 @@ class CalendarioRepository {
     }
     deleteData(calendario) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = "DELETE FROM animalcare.DadodCalendario where id = ?";
+            const query = "DELETE FROM DadosCalendario where id = ?";
             try {
-                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [calendario.id]);
-                console.log('Data deletada com sucesso: ', calendario);
-                return new Promise((resolve) => {
-                    resolve(calendario);
-                });
+                yield (0, mysql_1.executarComandoSQL)(query, [calendario.id]);
+                console.log('Data deletada com sucesso: ', calendario.id);
+                return calendario;
             }
             catch (err) {
                 console.error(`Falha ao deletar data de id ${calendario.id} gerando o erro: ${err}`);
@@ -85,16 +81,30 @@ class CalendarioRepository {
     }
     filterDataById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = "SELECT * FROM animalcare.DadosCalendario where id = ?";
+            const query = "SELECT * FROM DadosCalendario where id = ?";
             try {
                 const resultado = yield (0, mysql_1.executarComandoSQL)(query, [id]);
-                console.log('Data localizada com sucesso, ID: ', resultado);
-                return new Promise((resolve) => {
-                    resolve(resultado);
-                });
+                if (resultado.length > 0) {
+                    return resultado[0];
+                }
+                return null;
             }
             catch (err) {
-                console.error(`Erro ao procurar data de ID ${id} gerando o erro: ${err}`);
+                console.error(`Erro ao buscar data de ID ${id}:`, err);
+                throw err;
+            }
+        });
+    }
+    filterAllDatas() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const query = "SELECT * FROM DadosCalendario";
+            try {
+                const resultado = yield (0, mysql_1.executarComandoSQL)(query, []);
+                console.log('Todas as datas foram listadas com sucesso');
+                return resultado;
+            }
+            catch (err) {
+                console.error('Erro ao listar todas as datas:', err);
                 throw err;
             }
         });

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Path, Post, Put, Res, Route, Tags, TsoaResponse } from "tsoa";
+import { Body, Controller, Delete, Get, Path, Post, Put, Query, Res, Route, Tags, TsoaResponse } from "tsoa";
 import { PetService } from "../service/petService";
 import { PetRequestDto } from "../model/dto/petRequestDto";
 import { BasicResponseDto } from "../model/dto/BasicResponseDto";
@@ -66,6 +66,40 @@ export class PetController extends Controller{
             }
 
         }
+
+        @Get("name/{name}")
+        async filterPetByName(
+            @Query() name: string,
+            @Res() notFound: TsoaResponse<400, BasicResponseDto>,
+            @Res() success: TsoaResponse<200, BasicResponseDto>
+        ): Promise<void> {
+            try {
+                const pet = await this.petService.filterPetByNome(name);
+                if (name.length > 0) {
+                    return success(200, new BasicResponseDto("Pets encontrados!", pet));
+                } else {
+                    return notFound(400, new BasicResponseDto("Nenhum pet encontrado com o nome fornecido.", undefined));
+                }
+            } catch (error: any) {
+                return notFound(400, new BasicResponseDto(error.message, undefined));
+            }
+        }
+    
+        @Get("all")
+        async listarTodosPets(
+            @Res() notFound: TsoaResponse<400, BasicResponseDto>,
+            @Res() success: TsoaResponse<200, BasicResponseDto>
+        ): Promise<void> {
+            try {
+                const pet = await this.petService.listarTodosPets();
+                return success(200, new BasicResponseDto("Pets listados com sucesso!", pet));
+            } catch (error: any) {
+                return notFound(400, new BasicResponseDto(error.message, undefined));
+            }
+        }
+    
+    
+
 
 
 

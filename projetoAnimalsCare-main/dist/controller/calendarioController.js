@@ -76,6 +76,17 @@ let CalendarioController = class CalendarioController extends tsoa_1.Controller 
             }
         });
     }
+    listarTodasDatas(notFound, success) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const calendario = yield this.calendarioService.listarTodasDatas();
+                return success(200, new BasicResponseDto_1.BasicResponseDto("Datas listadas com sucesso!", calendario));
+            }
+            catch (error) {
+                return notFound(400, new BasicResponseDto_1.BasicResponseDto(error.message, undefined));
+            }
+        });
+    }
 };
 exports.CalendarioController = CalendarioController;
 __decorate([
@@ -114,6 +125,14 @@ __decorate([
     __metadata("design:paramtypes", [Number, Function, Function]),
     __metadata("design:returntype", Promise)
 ], CalendarioController.prototype, "filtrarDataById", null);
+__decorate([
+    (0, tsoa_1.Get)("all"),
+    __param(0, (0, tsoa_1.Res)()),
+    __param(1, (0, tsoa_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Function, Function]),
+    __metadata("design:returntype", Promise)
+], CalendarioController.prototype, "listarTodasDatas", null);
 exports.CalendarioController = CalendarioController = __decorate([
     (0, tsoa_1.Route)("calendario"),
     (0, tsoa_1.Tags)("Calendario")

@@ -9,7 +9,7 @@ export class CalendarioRepository{
 
     private async createTable() {
         const query = `
-        CREATE TABLE IF NOT EXISTS animalcare.DadosCalendario (
+        CREATE TABLE IF NOT EXISTS DadosCalendario (
             id INT AUTO_INCREMENT PRIMARY KEY,
             data DATE NOT NULL,
             tipoCompromisso VARCHAR(255) NOT NULL,
@@ -27,7 +27,7 @@ export class CalendarioRepository{
     }
 
     async insertData(calendario:Calendario): Promise<Calendario>{
-        const query = "INSERT INTO animalcare.DadosCalendario (data, tipoCompromisso, hora, observacao) VALUES (?, ?, ?, ?)";
+        const query = "INSERT INTO DadosCalendario (data, tipoCompromisso, hora, observacao) VALUES (?, ?, ?, ?)";
 
         try {
             const resultado = await executarComandoSQL(query, [calendario.data, calendario.tipoCompromisso, calendario.hora, calendario.observacao]);
@@ -37,21 +37,19 @@ export class CalendarioRepository{
                 resolve(calendario);
         })
 
-        } catch (err){
-            console.log('Erro ao inserir compromisso', err);
+        } catch (err: any){
+            console.log('Erro ao inserir compromisso');
             throw err;
         }
     }
 
     async updateData(calendario: Calendario): Promise<Calendario>{
-        const query = "UPDATE animalcare.DadosCalendario set data = ?, tipoCompromisso = ?, hora = ?, observacao = ? where id = ? ";
+        const query = "UPDATE DadosCalendario SET data = ?, tipoCompromisso = ?, hora = ?, observacao = ? where id = ? ";
 
         try {
             const resultado = await executarComandoSQL (query, [calendario.data, calendario.tipoCompromisso, calendario.hora, calendario.observacao, calendario.id]);
             console.log('Data atualizada com sucesso, ID ', resultado);
-            return new Promise<Calendario>((resolve)=>{
-                resolve(calendario);
-            });
+            return calendario;
                
         } catch (err:any){
             console.error(`Erro ao atualizar data de ID ${calendario.id} gerando o erro: ${err}`);
@@ -60,32 +58,44 @@ export class CalendarioRepository{
     }
 
     async deleteData(calendario:Calendario): Promise<Calendario>{
-        const query = "DELETE FROM animalcare.DadodCalendario where id = ?";
+        const query = "DELETE FROM DadosCalendario where id = ?";
 
         try {
 
-            const resultado = await executarComandoSQL(query, [calendario.id]);
-            console.log ('Data deletada com sucesso: ', calendario );
-            return new Promise<Calendario>((resolve)=>{
-                resolve(calendario);
-            })
+            await executarComandoSQL(query, [calendario.id]);
+            console.log ('Data deletada com sucesso: ', calendario.id );
+            return calendario;
         } catch (err:any) {
             console.error(`Falha ao deletar data de id ${calendario.id} gerando o erro: ${err}`);
             throw err;
         }
     }
 
-    async filterDataById(id: number):Promise<Calendario>{
-        const query = "SELECT * FROM animalcare.DadosCalendario where id = ?";
+    async filterDataById(id: number):Promise<Calendario | null>{
+        const query = "SELECT * FROM DadosCalendario where id = ?";
 
         try {
             const resultado = await executarComandoSQL(query, [id]);
-            console.log('Data localizada com sucesso, ID: ', resultado);
-            return new Promise<Calendario>((resolve)=>{
-                resolve(resultado);
-            })
-        } catch (err:any){
-            console.error(`Erro ao procurar data de ID ${id} gerando o erro: ${err}`);
+            if (resultado.length > 0) {
+                return resultado[0];
+            }
+            return null;
+        } catch (err: any) {
+            console.error(`Erro ao buscar data de ID ${id}:`, err);
+            throw err;
+        }
+
+    }
+
+    async filterAllDatas(): Promise<Calendario[]> {
+        const query = "SELECT * FROM DadosCalendario";
+
+        try {
+            const resultado = await executarComandoSQL(query, []);
+            console.log('Todas as datas foram listadas com sucesso');
+            return resultado;
+        } catch (err: any) {
+            console.error('Erro ao listar todas as datas:', err);
             throw err;
         }
     }

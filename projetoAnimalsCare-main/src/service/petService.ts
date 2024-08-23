@@ -1,28 +1,30 @@
 import { Pet } from "../model/entity/petEntity";
 import { PetRepository } from "../repository/petRepository";
+import { ResponsavelRepository } from "../repository/responsavelRepository";
+
 
 
 export class PetService{
 
     petRepository: PetRepository = new PetRepository();
+    responsavelRepository = new ResponsavelRepository();
 
     async cadastarPet(petData: any): Promise<Pet>{
-        const {nome, especie, raca, genero, idade, peso} = petData;
+        const {idResponsavel, nome, especie, raca, genero, idade, peso} = petData;
 
-        const pet = new Pet(undefined, nome, especie, raca, genero, idade, peso)
-
-        const novoPet = await this.petRepository.insertPet(pet);
-        console.log("Service - Insert", novoPet);
-        return novoPet;
+        const pets = await this.responsavelRepository.filterUsuarioById(idResponsavel)
+        if(!pets){
+            throw new Error ('Usuario com ID ${idResponsavel} não encontrado');
+        }
+        const pet = new Pet(undefined, idResponsavel, nome, especie, raca, genero, idade, peso)
+        return await this.petRepository.insertPet(pet);
     }
 
     async atualizarPet(petData: any): Promise<Pet>{
         const {id, idResponsavel, nome, especie, raca, genero, idade, peso} = petData;
 
         const pet = new Pet(id, idResponsavel, nome, especie, raca, genero, idade, peso)
-
         await this.petRepository.updatePet(pet);
-        console.log("Service - Update", pet);
         return pet;
     }
 
@@ -30,18 +32,19 @@ export class PetService{
         const {id, idResponsavel, nome, especie, raca, genero, idade, peso} = petData;
 
         const pet = new Pet(id, idResponsavel, nome, especie, raca, genero, idade, peso)
-
-        await this.petRepository.deletePet(pet);
-        console.log("Service - Delete", pet);
         return pet;
 
     }
 
-    async filtrarPetById(petData: any): Promise<Pet>{
-        const idNumber = parseInt(petData, 10);
+    async filtrarPetById(id: number): Promise<Pet | null>{
+       return await this.petRepository.filterPetById(id)
+    }
 
-        const pet = await this.petRepository.filterPetById(idNumber);
-        console.log("Service - Filtar", pet);
-        return pet;
+    async filterPetByNome(name: string): Promise<Pet[] | null> {
+        return await this.petRepository.filterPetByName(name);
+    }
+
+    async listarTodosPets(): Promise<Pet[]>{
+        return await this.petRepository.filterAllPets();
     }
 }

@@ -35,7 +35,8 @@
 					"object": {}
 				},
 				"required": [
-					"message"
+					"message",
+					"object"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -174,6 +175,10 @@
 			},
 			"CalendarioDto": {
 				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
 					"data": {
 						"type": "string"
 					},
@@ -188,6 +193,7 @@
 					}
 				},
 				"required": [
+					"id",
 					"data",
 					"tipoCompromisso",
 					"hora",
@@ -557,6 +563,85 @@
 				]
 			}
 		},
+		"/pet/name/{name}": {
+			"get": {
+				"operationId": "FilterPetByName",
+				"responses": {
+					"200": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No content"
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Pet"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "name",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/pet/all": {
+			"get": {
+				"operationId": "ListarTodosPets",
+				"responses": {
+					"200": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No content"
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Pet"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
 		"/calendario": {
 			"post": {
 				"operationId": "CadastrarData",
@@ -731,6 +816,41 @@
 						}
 					}
 				]
+			}
+		},
+		"/calendario/all": {
+			"get": {
+				"operationId": "ListarTodasDatas",
+				"responses": {
+					"200": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No content"
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Calendario"
+				],
+				"security": [],
+				"parameters": []
 			}
 		}
 	},

@@ -25,22 +25,18 @@ export class ResponsavelService{
         return responsavel;
     }
 
-    async deletarresponsavel(responsavelData: any): Promise<Responsavel>{
-        const {id, name, email, senha} = responsavelData;
+    async deletarresponsavel(id: number): Promise<void>{
+        const responsavelExiste = await this.responsavelRepository.filterUsuarioById(id);
+        if (!responsavelExiste){
+            throw new Error(`Responsavel com ID ${id} não existe`);
+        }
 
-        const responsavel = new Responsavel(id, name, email, senha)
-
-        await this.responsavelRepository.deleteUsuario(responsavel);
-        console.log("Service - Delete", responsavel);
-        return responsavel;
+        await this.responsavelRepository.deleteUsuario(responsavelExiste);
+        
     }
 
-    async filtrarResponsavelById(responsavelData: any): Promise<Responsavel>{
-        const idNumber = parseInt(responsavelData, 10);
-
-        const responsavel = await this.responsavelRepository.filterUsuarioById(idNumber);
-        console.log("Service - Filtrar", responsavel);
-        return responsavel;
+    async filtrarResponsavelById(id: number): Promise<Responsavel | null> {
+        return await this.responsavelRepository.filterUsuarioById(id);
     }
 
 

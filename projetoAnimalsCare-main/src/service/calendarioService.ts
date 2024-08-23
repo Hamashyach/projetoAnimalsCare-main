@@ -37,11 +37,11 @@ export class CalendarioService{
 
     }
 
-    async filtrarDataById(calendarioData: any): Promise<Calendario>{
-        const idNumber = parseInt(calendarioData, 10);
+    async filtrarDataById(id: number): Promise<Calendario | null>{
+        return await this.calendarioRepository.filterDataById(id);
+    }
 
-        const calendario = await this.calendarioRepository.filterDataById(idNumber);
-        console.log("Service - Filtar", calendario);
-        return calendario;
+    async listarTodasDatas(): Promise<Calendario[] >{
+        return await this.calendarioRepository.filterAllDatas();
     }
 }

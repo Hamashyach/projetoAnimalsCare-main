@@ -3,6 +3,7 @@ import { CalendarioService } from "../service/calendarioService";
 import { CalendarioRequestDto } from "../model/dto/calendarioRequestDto";
 import { BasicResponseDto } from "../model/dto/BasicResponseDto";
 import { CalendarioDto } from "../model/dto/calendarioDto";
+import { Calendario } from "../model/entity/calendarioEntity";
 
 @Route("calendario")
 @Tags("Calendario")
@@ -64,4 +65,20 @@ export class CalendarioController extends Controller {
             return notFound(400, new BasicResponseDto(error.message, undefined));
         }
     }
+
+    @Get("all")
+    async listarTodasDatas(
+        @Res() notFound: TsoaResponse<400, BasicResponseDto>,
+        @Res() success: TsoaResponse<200, BasicResponseDto>
+    ): Promise<void> {
+        try {
+            const calendario = await this.calendarioService.listarTodasDatas();
+            return success(200, new BasicResponseDto("Datas listadas com sucesso!", calendario));
+        } catch (error: any) {
+            return notFound(400, new BasicResponseDto(error.message, undefined));
+        }
+    }
+
+
+    
 }

@@ -18,7 +18,7 @@ class ResponsavelRepository {
     createTable() {
         return __awaiter(this, void 0, void 0, function* () {
             const query = `
-        CREATE TABLE IF NOT EXISTS animalcare.DadosResponsavel (
+        CREATE TABLE IF NOT EXISTS DadosResponsavel (
             id INT AUTO_INCREMENT PRIMARY KEY,
             name VARCHAR(255) NOT NULL,
             email VARCHAR(255) NOT NULL,
@@ -35,7 +35,7 @@ class ResponsavelRepository {
     }
     insertUsuario(responsavel) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = "INSERT INTO animalcare.dadosresponsavel (name, email, senha) VALUES (?, ?, ?)";
+            const query = "INSERT INTO DadosResponsavel (name, email, senha) VALUES (?, ?, ?)";
             try {
                 const resultado = yield (0, mysql_1.executarComandoSQL)(query, [responsavel.name, responsavel.email, responsavel.senha]);
                 console.log('Usuario inserido com sucesso, ID: ', resultado.isertid);
@@ -52,7 +52,7 @@ class ResponsavelRepository {
     }
     updateUsuario(responsavel) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = 'UPDATE animalcare.DadosResponsavel set name = ?, email = ?, senha = ? where id = ?';
+            const query = 'UPDATE DadosResponsavel set name = ?, email = ?, senha = ? where id = ?';
             try {
                 const resultado = yield (0, mysql_1.executarComandoSQL)(query, [responsavel.name, responsavel.email, responsavel.senha, responsavel.id]);
                 console.log('Usuario atualizado com sucesso, ID', resultado);
@@ -68,13 +68,11 @@ class ResponsavelRepository {
     }
     deleteUsuario(responsavel) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = "DELETE FROM animalcare.DadosReponsavel where id = ?;";
+            const query = "DELETE FROM DadosReponsavel where id = ?;";
             try {
-                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [responsavel.id]);
-                console.log('Usuário deletado com sucesso: ', resultado);
-                return new Promise((resolve) => {
-                    resolve(responsavel);
-                });
+                yield (0, mysql_1.executarComandoSQL)(query, [responsavel.id]);
+                console.log('Usuário deletado com sucesso: ', responsavel.id);
+                return responsavel;
             }
             catch (err) {
                 console.error(`Falha ao deletar o usuario de ID ${responsavel.id} gerando o erro: ${err}`);
@@ -84,13 +82,13 @@ class ResponsavelRepository {
     }
     filterUsuarioById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = "SELECT * FROM animalcare.DadosResponsavel where id = ?";
+            const query = "SELECT * FROM DadosResponsavel where id = ?";
             try {
                 const resultado = yield (0, mysql_1.executarComandoSQL)(query, [id]);
-                console.log('usuario localizado com sucesso, ID: ', resultado);
-                return new Promise((resolve) => {
-                    resolve(resultado);
-                });
+                if (resultado.lenght > 0) {
+                    return resultado[0];
+                }
+                return null;
             }
             catch (err) {
                 console.error(`Falha ao procurar usuarip de ID ${id} gerando o erro: ${err}`);

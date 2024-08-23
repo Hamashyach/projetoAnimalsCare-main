@@ -36,7 +36,7 @@ const models = {
         "dataType": "refObject",
         "properties": {
             "message": { "dataType": "string", "required": true },
-            "object": { "dataType": "any" },
+            "object": { "dataType": "any", "required": true },
         },
         "additionalProperties": false,
     },
@@ -95,6 +95,7 @@ const models = {
     "CalendarioDto": {
         "dataType": "refObject",
         "properties": {
+            "id": { "dataType": "double", "required": true },
             "data": { "dataType": "string", "required": true },
             "tipoCompromisso": { "dataType": "string", "required": true },
             "hora": { "dataType": "string", "required": true },
@@ -327,6 +328,59 @@ function RegisterRoutes(app) {
         });
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.get('/pet/name/:name', ...((0, runtime_1.fetchMiddlewares)(petController_1.PetController)), ...((0, runtime_1.fetchMiddlewares)(petController_1.PetController.prototype.filterPetByName)), function PetController_filterPetByName(request, response, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const args = {
+                name: { "in": "query", "name": "name", "required": true, "dataType": "string" },
+                notFound: { "in": "res", "name": "400", "required": true, "ref": "BasicResponseDto" },
+                success: { "in": "res", "name": "200", "required": true, "ref": "BasicResponseDto" },
+            };
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+            let validatedArgs = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+                const controller = new petController_1.PetController();
+                yield templateService.apiHandler({
+                    methodName: 'filterPetByName',
+                    controller,
+                    response,
+                    next,
+                    validatedArgs,
+                    successStatus: undefined,
+                });
+            }
+            catch (err) {
+                return next(err);
+            }
+        });
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.get('/pet/all', ...((0, runtime_1.fetchMiddlewares)(petController_1.PetController)), ...((0, runtime_1.fetchMiddlewares)(petController_1.PetController.prototype.listarTodosPets)), function PetController_listarTodosPets(request, response, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const args = {
+                notFound: { "in": "res", "name": "400", "required": true, "ref": "BasicResponseDto" },
+                success: { "in": "res", "name": "200", "required": true, "ref": "BasicResponseDto" },
+            };
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+            let validatedArgs = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+                const controller = new petController_1.PetController();
+                yield templateService.apiHandler({
+                    methodName: 'listarTodosPets',
+                    controller,
+                    response,
+                    next,
+                    validatedArgs,
+                    successStatus: undefined,
+                });
+            }
+            catch (err) {
+                return next(err);
+            }
+        });
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     app.post('/calendario', ...((0, runtime_1.fetchMiddlewares)(calendarioController_1.CalendarioController)), ...((0, runtime_1.fetchMiddlewares)(calendarioController_1.CalendarioController.prototype.cadastrarData)), function CalendarioController_cadastrarData(request, response, next) {
         return __awaiter(this, void 0, void 0, function* () {
             const args = {
@@ -422,6 +476,32 @@ function RegisterRoutes(app) {
                 const controller = new calendarioController_1.CalendarioController();
                 yield templateService.apiHandler({
                     methodName: 'filtrarDataById',
+                    controller,
+                    response,
+                    next,
+                    validatedArgs,
+                    successStatus: undefined,
+                });
+            }
+            catch (err) {
+                return next(err);
+            }
+        });
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.get('/calendario/all', ...((0, runtime_1.fetchMiddlewares)(calendarioController_1.CalendarioController)), ...((0, runtime_1.fetchMiddlewares)(calendarioController_1.CalendarioController.prototype.listarTodasDatas)), function CalendarioController_listarTodasDatas(request, response, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const args = {
+                notFound: { "in": "res", "name": "400", "required": true, "ref": "BasicResponseDto" },
+                success: { "in": "res", "name": "200", "required": true, "ref": "BasicResponseDto" },
+            };
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+            let validatedArgs = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+                const controller = new calendarioController_1.CalendarioController();
+                yield templateService.apiHandler({
+                    methodName: 'listarTodasDatas',
                     controller,
                     response,
                     next,

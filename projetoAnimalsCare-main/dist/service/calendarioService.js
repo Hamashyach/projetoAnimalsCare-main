@@ -43,12 +43,14 @@ class CalendarioService {
             return calendario;
         });
     }
-    filtrarDataById(calendarioData) {
+    filtrarDataById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const idNumber = parseInt(calendarioData, 10);
-            const calendario = yield this.calendarioRepository.filterDataById(idNumber);
-            console.log("Service - Filtar", calendario);
-            return calendario;
+            return yield this.calendarioRepository.filterDataById(id);
+        });
+    }
+    listarTodasDatas() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.calendarioRepository.filterAllDatas();
         });
     }
 }

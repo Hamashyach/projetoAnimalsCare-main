@@ -57,7 +57,8 @@ let ResponsavelController = class ResponsavelController extends tsoa_1.Controlle
     deletarUsuario(dto, notFound, success) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                yield this.responsavelService.deletarresponsavel(dto);
+                const { id } = dto;
+                yield this.responsavelService.deletarresponsavel(id);
                 return success(200, new BasicResponseDto_1.BasicResponseDto("Usuário deletado com sucesso!", undefined));
             }
             catch (error) {

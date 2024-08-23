@@ -45,7 +45,8 @@ export class ResponsavelController extends Controller{
         @Res() success: TsoaResponse<200, BasicResponseDto>
     ): Promise<void> {
         try {
-            await this.responsavelService.deletarresponsavel(dto);
+            const { id } = dto; 
+            await this.responsavelService.deletarresponsavel(id);
             return success(200, new BasicResponseDto("Usuário deletado com sucesso!", undefined));
         } catch (error: any) {
             return notFound(400, new BasicResponseDto(error.message, undefined));
@@ -66,6 +67,7 @@ export class ResponsavelController extends Controller{
             }
 
         }
+
 
 
 

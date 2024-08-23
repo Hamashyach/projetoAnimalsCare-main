@@ -1,10 +1,12 @@
 export class CalendarioDto{
+    id: number;
     data: string;
     tipoCompromisso: string;
     hora: string;
     observacao: string;
 
-    constructor(data: any, tipoCompromisso: any, hora: any, observacao: any){
+    constructor(id: any, data: any, tipoCompromisso: any, hora: any, observacao: any){
+        this.id = id;
         this.hora = hora;
         this.tipoCompromisso = tipoCompromisso;
         this.data = data;

@@ -76,6 +76,33 @@ let PetController = class PetController extends tsoa_1.Controller {
             }
         });
     }
+    filterPetByName(name, notFound, success) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const pet = yield this.petService.filterPetByNome(name);
+                if (name.length > 0) {
+                    return success(200, new BasicResponseDto_1.BasicResponseDto("Pets encontrados!", pet));
+                }
+                else {
+                    return notFound(400, new BasicResponseDto_1.BasicResponseDto("Nenhum pet encontrado com o nome fornecido.", undefined));
+                }
+            }
+            catch (error) {
+                return notFound(400, new BasicResponseDto_1.BasicResponseDto(error.message, undefined));
+            }
+        });
+    }
+    listarTodosPets(notFound, success) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const pet = yield this.petService.listarTodosPets();
+                return success(200, new BasicResponseDto_1.BasicResponseDto("Pets listados com sucesso!", pet));
+            }
+            catch (error) {
+                return notFound(400, new BasicResponseDto_1.BasicResponseDto(error.message, undefined));
+            }
+        });
+    }
 };
 exports.PetController = PetController;
 __decorate([
@@ -114,6 +141,23 @@ __decorate([
     __metadata("design:paramtypes", [Number, Function, Function]),
     __metadata("design:returntype", Promise)
 ], PetController.prototype, "filtrarPetId", null);
+__decorate([
+    (0, tsoa_1.Get)("name/{name}"),
+    __param(0, (0, tsoa_1.Query)()),
+    __param(1, (0, tsoa_1.Res)()),
+    __param(2, (0, tsoa_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Function, Function]),
+    __metadata("design:returntype", Promise)
+], PetController.prototype, "filterPetByName", null);
+__decorate([
+    (0, tsoa_1.Get)("all"),
+    __param(0, (0, tsoa_1.Res)()),
+    __param(1, (0, tsoa_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Function, Function]),
+    __metadata("design:returntype", Promise)
+], PetController.prototype, "listarTodosPets", null);
 exports.PetController = PetController = __decorate([
     (0, tsoa_1.Route)("pet"),
     (0, tsoa_1.Tags)("Pet")

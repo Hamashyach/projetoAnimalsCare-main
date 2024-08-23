@@ -9,7 +9,7 @@ export class PetRepository {
 
     private async createTable(){
         const query = `
-        CREATE TABLE IF NOT EXISTS animalcare.DadosPet (
+        CREATE TABLE IF NOT EXISTS DadosPet (
             id INT AUTO_INCREMENT PRIMARY KEY,
             idResponsavel INT NOT NULL,
             nome VARCHAR(255) NOT NULL,
@@ -17,7 +17,9 @@ export class PetRepository {
             raca VARCHAR(255) NOT NULL,
             genero VARCHAR(255) NOT NULL,
             idade INT NOT NULL,
-            peso INT NOT NULL
+            peso INT NOT NULL,
+            FOREIGN KEY (idResponsavel) REFERENCES DadosResponsavel (id)
+
         )`;
 
         try {
@@ -29,7 +31,7 @@ export class PetRepository {
     }
 
     async insertPet(pet: Pet):Promise<Pet>{
-        const query ="INSERT INTO animalcare.DadosPet (idResponsavel, nome, especie, raca, genero, idade, peso) VALUES (?, ? ,?, ?, ?, ?)";
+        const query ="INSERT INTO DadosPet (idResponsavel, nome, especie, raca, genero, idade, peso) VALUES (?, ? ,?, ?, ?, ?)";
 
         try {
             const resultado = await executarComandoSQL (query, [pet.idResponsavel, pet.nome, pet.especie, pet.raca, pet.genero, pet.idade, pet.peso]);
@@ -38,17 +40,17 @@ export class PetRepository {
             return new Promise<Pet>((resolve)=> {
                 resolve(pet);
             })
-        } catch (err) {
-            console.error('Erro ao inserir o pet', err);
+        } catch (err: any) {
+            console.error('Erro ao inserir o pet: Responsavel com ID ${pet.responsavelId} não existe');
             throw err;
         }
     }
 
     async updatePet (pet:Pet):Promise<Pet>{
-        const query ="UPDATE animalcare.DadosPet set idResponsavel = ?, nome = ?, especie = ?, raca = ?, genero = ?, idade = ?, peso= ? where id = ?";
+        const query ="UPDATE DadosPet set idResponsavel = ?, nome = ?, especie = ?, raca = ?, genero = ?, idade = ?, peso= ? where id = ?";
 
         try {
-            const resultado = await executarComandoSQL(query, [pet.nome, pet.especie, pet.raca, pet.genero, pet.idade, pet.peso, pet.id]);
+            const resultado = await executarComandoSQL(query, [pet.idResponsavel, pet.nome, pet.especie, pet.raca, pet.genero, pet.idade, pet.peso, pet.id]);
             console.log('Pet atualizado com sucesso, ID ', resultado);
             return new Promise<Pet>((resolve)=>{
                 resolve(pet);
@@ -60,14 +62,12 @@ export class PetRepository {
     }
 
     async deletePet(pet:Pet):Promise<Pet>{
-        const query = "DELETE FROM animalcare.DadosPet where id = ?;";
+        const query = "DELETE FROM DadosPet where id = ?;";
 
         try {
-            const resultado = await executarComandoSQL(query, [pet.id]);
-            console.log('Pet deletado com sucesso: ', pet);
-            return new Promise<Pet>((resolve)=>{
-                resolve(pet);
-            })
+            await executarComandoSQL(query, [pet.id]);
+            console.log('Pet deletado com sucesso: ', pet.id);
+            return pet;
         } catch (err:any) {
             console.error(`Falha ao deletar o pet de ID ${pet.id} gerando o erro: ${err}`);
             throw err;
@@ -75,17 +75,41 @@ export class PetRepository {
     }
 
     async filterPetById(id: number): Promise<Pet>{
-        const query = 'Select * From animalcare.DadosPet where id = ?';
+        const query = 'Select * From DadosPet where id = ?';
 
         try{
-            const resultado = await executarComandoSQL(query, [id]);
+            const [resultado] = await executarComandoSQL(query, [id]);
             console.log('Pet localizado com sucesso, ID: ', resultado);
-            return new Promise<Pet>((resolve)=>{
-                resolve(resultado);
-            })
+            return resultado;
         }catch (err: any) {
             console.error(`Falha ao procurar o Pet de ID ${id} gerando o erro: ${err}`);
             throw err;
         }
     }
+
+    async filterPetByName(name: string): Promise<Pet[]>{
+        const query = "SELECT * FROM pDadosPet where name = ?";
+
+        try{
+            const resultado: Pet[] = await executarComandoSQL(query, [name]);
+            return resultado;
+        } catch (err: any){
+            console.error(`Falha ao procurar pet com nome ${name} gerando o erro: ${err} `);
+            throw err;
+        }
+    }
+
+        async filterAllPets(): Promise<Pet[]>{
+            const query = "SELECT * FROM DadosPet";
+
+            try{
+                const resultado = await executarComandoSQL(query, []);
+                return resultado;
+                
+            } catch (err: any) {
+                console.error(`Falha ao listar os pets gerando o erro ${err}`)
+                throw err;
+            }
+
+        }
 }

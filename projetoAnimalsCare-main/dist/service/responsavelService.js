@@ -34,21 +34,18 @@ class ResponsavelService {
             return responsavel;
         });
     }
-    deletarresponsavel(responsavelData) {
+    deletarresponsavel(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { id, name, email, senha } = responsavelData;
-            const responsavel = new responsavelEntity_1.Responsavel(id, name, email, senha);
-            yield this.responsavelRepository.deleteUsuario(responsavel);
-            console.log("Service - Delete", responsavel);
-            return responsavel;
+            const responsavelExiste = yield this.responsavelRepository.filterUsuarioById(id);
+            if (!responsavelExiste) {
+                throw new Error(`Responsavel com ID ${id} não existe`);
+            }
+            yield this.responsavelRepository.deleteUsuario(responsavelExiste);
         });
     }
-    filtrarResponsavelById(responsavelData) {
+    filtrarResponsavelById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const idNumber = parseInt(responsavelData, 10);
-            const responsavel = yield this.responsavelRepository.filterUsuarioById(idNumber);
-            console.log("Service - Filtrar", responsavel);
-            return responsavel;
+            return yield this.responsavelRepository.filterUsuarioById(id);
         });
     }
 }
